@@ -4,7 +4,7 @@ const cors = require('cors');
 
 const connect = require('./database');
 const myConnect = connect
-const {sqlCreateProject, sqlProjects, sqlUpdateProjects} = require('./dbQueries')
+const {sqlCreateProject, sqlProjects, sqlUpdateProjects, sqlDeleteProject} = require('./dbQueries')
 
 const app = express();
 
@@ -42,6 +42,8 @@ app.put('/project/', async(req, res) => {
 })
 
 app.delete('/project/', async(req, res) => {
-
+    const {body: {id}} = req
+    const deletedProject = await myConnect.query(sqlDeleteProject, [id]);
+    res.status(200).send(deletedProject);
 })
 

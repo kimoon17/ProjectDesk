@@ -12,8 +12,14 @@ const sqlUpdateProjects = {
     RETURNING id, name, code`
 }
 
+const sqlDeleteProject = {
+    text: `DELETE FROM projectdeskdb.projects WHERE id=$1
+    RETURNING id, name, code`
+}
+
 module.exports = {
     sqlCreateProject,
     sqlProjects,
-    sqlUpdateProjects
+    sqlUpdateProjects,
+    sqlDeleteProject
 }

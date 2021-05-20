@@ -1,0 +1,18 @@
+.navbar_ul {
+  display: flex;
+  list-style: none;
+  justify-content: flex-start;
+  margin: 15px;
+  padding: 10px;
+  border: 2px solid #000;
+
+  .navbar_link {
+    text-decoration: none;
+    color: #000;
+    padding: 10px 15px;
+
+    &:hover {
+      background-color: cyan;
+    }
+  }
+}
