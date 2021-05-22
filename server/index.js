@@ -15,6 +15,7 @@ app.use(bodyParser.json()); //json format
 app.use(cors({origin: "http://localhost:3000"}));
 app.use('/project', projectRouters)
 
+
 app.listen(8000, () => {
     console.log("Server is working!!!");
 })
