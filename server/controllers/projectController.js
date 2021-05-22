@@ -2,26 +2,26 @@ const {createProject, readProjects, updateProject, deleteProject} = require('../
 
 const project_create = async (req, res) => {
   const {body: {name, code}} = req
-  const newProject = createProject(name, code)
-  res.status(200).send(newProject);
+  const {status, data} = await createProject(name, code)
+  res.status(status).send(data);
 }
 
 const project_list = async (req, res) => {
   const {query: {limit, offset}} = req
-  const projectRead = await readProjects(limit, offset);
-  res.status(200).send(projectRead);
+  const {status, data} = await readProjects(limit, offset);
+  res.status(status).send(data);
 }
 
 const project_update = async(req, res) => {
   const {body: {id, name, code}} = req
-  const changedProject = await updateProject(name, code, id);
-  res.status(200).send(changedProject);
+  const {status, data} =  await updateProject(name, code, id);
+  res.status(status).send(data);
 }
 
 const project_delete = async(req, res) => {
   const {body: {id}} = req
-  const deletedProject = await deleteProject(id);
-  res.status(200).send(deletedProject);
+  const {status, data} = await deleteProject(id);
+  res.status(status).send(data);
 }
 
 module.exports = {
