@@ -11,6 +11,10 @@
     color: #000;
     padding: 10px 15px;
 
+    &.selected {
+      background-color: cyan;
+    }
+
     &:hover {
       background-color: cyan;
     }

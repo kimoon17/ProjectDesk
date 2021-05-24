@@ -1,6 +1,6 @@
 const connect = require('../database');
 const myConnect = connect
-const {projectListFormatter} = require('../formatters/projects')
+const {listFormatter} = require('../formatters/projects')
 
 const sqlCreateProject = {
   text: `INSERT INTO projectdeskdb.projects (name, code) VALUES ($1, $2)
@@ -35,7 +35,8 @@ const createProject = async (name, code) => {
   return {status: 200, data: await myConnect.query(sqlCreateProject, [name, code])}
 }
 
-const readProjects = async (limit, offset) => ({status: 200, data: projectListFormatter(await myConnect.query(sqlProjectList, [limit, offset]))})
+//await awaits a promise
+const readProjects = async (limit, offset) => ({status: 200, data: listFormatter(await myConnect.query(sqlProjectList, [limit, offset]))})
 
 const updateProject = async (id, name, code) => {
   const {data : {rows}} = await readOneProject(code)

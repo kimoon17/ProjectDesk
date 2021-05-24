@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.Router()
+const router = express.Router() //middleware, collects our routes
 const {project_create, project_list, project_update, project_delete} = require('../controllers/projectController')
 
 router.post('/', project_create)

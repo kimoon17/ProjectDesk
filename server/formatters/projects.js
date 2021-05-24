@@ -1,7 +1,7 @@
-const projectListFormatter = (data) => ({
+const listFormatter = (data) => ({
   count : data.rowCount,
-  projects: data.rows,
+  data: data.rows,
   fields: data.fields
 })
 
-module.exports = { projectListFormatter}
+module.exports = { listFormatter }

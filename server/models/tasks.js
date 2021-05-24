@@ -1,13 +1,14 @@
 const connect = require('../database')
 const myConnect = connect
+const {listFormatter} = require('../formatters/projects')
 
 const sqlCreateTask = {
-    text: `INSERT INTO projectdeskdb.tasks (name, status, type, description) VALUES ($1, $2, $3, $4)
-    RETURNING name, status, type, description`
+    text: `INSERT INTO projectdeskdb.tasks (name, status, type, description, project_id) VALUES ($1, $2, $3, $4, $5)
+    RETURNING name, status, type, description, project_id` //project id ->>> projects
 }
 
-const sqlTaskByType = {
-    text: `SELECT * FROM projectdeskdb.tasks where type=$1`
+const sqlTasksByProject = {
+    text: `SELECT * FROM projectdeskdb.tasks where project_id=$1 LIMIT $2 OFFSET $3`
 }
 
 const sqlTaskList = {
@@ -23,34 +24,34 @@ const sqlDeleteTask = {
     text: `DELETE FROM projectdeskdb.tasks WHERE id=$1`
 }
 
-const readOneTask = async (type) => ({status: 200, data: await myConnect.query(sqlTaskByType, [type])})
-
-const createTask = async (name, status, type, description) => {
-    const {data: {rows}} = await readOneTask(type)
-
-    if (rows.length) {
-        return {status: 400, data: 'task type already exists'}
-    }
-
-    return {status: 200, data: await myConnect.query(sqlCreateTask, [name, status, type, description])}
+const sqlTaskById = {
+    text: `SELECT * FROM projectdeskdb.tasks WHERE id=$1`
 }
 
-const readTasks = async (limit, offset) => ({status: 200, data: await myConnect.query(sqlTaskList, [limit, offset])})
+//project's tasks
+const readTasksByProject = async (project_id, limit, offset) => ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTasksByProject, [project_id, limit, offset]))})
+
+//specific
+const readTaskById = async (id) => ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTaskById, [id]))})
+
+const createTask = async (name, status, type, description, project_id) => {
+    return {statusCode: 200, data: await myConnect.query(sqlCreateTask, [name, status, type, description, project_id])}
+}
+
+//all
+const readTasks = async (limit, offset) => ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTaskList, [limit, offset]))})
 
 const updateTask = async (id, name, status, type, description) => {
-    const {data: {rows}} = await readOneTask(type)
-    if (rows.length === 0) {
-        return {status: 400, data: 'task id is missing'}
-    }
-    return {status: 200, data: await myConnect.query(sqlUpdateTasks, [name, status, type, description, id])}
+    return {statusCode: 200, data: await myConnect.query(sqlUpdateTasks, [name, status, type, description, id])}
 }
 
-const deleteTask = async (id) => ({status: 200, data: await myConnect.query(sqlDeleteTask, [id])})
+const deleteTask = async (id) => ({statusCode: 200, data: await myConnect.query(sqlDeleteTask, [id])})
 
 module.exports = {
+    readTasksByProject,
     createTask,
     readTasks,
     updateTask,
-    readOneTask,
+    readTaskById,
     deleteTask
 }
