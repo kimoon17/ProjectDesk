@@ -1,6 +1,6 @@
 import './App.css';
 import {Navbar} from './components/Navbar/Navbar'
-import {Projects} from './components/Projects/Projects'
+import Projects from './components/Projects'
 import {Tasks} from './components/Tasks/Tasks'
 import {Route, Switch} from 'react-router-dom';
 

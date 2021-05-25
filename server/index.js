@@ -14,7 +14,13 @@ app.use(express.urlencoded({
 
 app.use(bodyParser.json()); //json format
 app.use(cors({origin: "http://localhost:3000"}));
-
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Redirect, Authorization")
+    res.header("Access-Control-Allow-Credentials", "true")
+    res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS")
+    next()
+})
 app.use('/project', projectRouters)
 app.use('/task', taskRouters)
 
