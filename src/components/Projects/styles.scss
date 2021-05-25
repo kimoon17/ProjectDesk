@@ -1,0 +1,29 @@
+.project_heading {
+  padding: 20px;
+  margin-left: 143px;
+}
+
+.project_boxes {
+  margin: 0 150px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+
+  .project_box {
+    padding: 15px;
+    border-top: 2px black solid;
+    border-left: 2px black solid;
+    border-right: 2px black solid;
+
+    .project_name {
+      color: #0d6efd;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    &:last-child {
+      border-bottom: 2px black solid;
+    }
+  }
+}
