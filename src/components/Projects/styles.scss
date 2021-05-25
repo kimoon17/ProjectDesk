@@ -11,6 +11,9 @@
   min-width: 300px;
 
   .project_box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 15px;
     border-top: 2px black solid;
     border-left: 2px black solid;
@@ -25,5 +28,24 @@
     &:last-child {
       border-bottom: 2px black solid;
     }
+
+    .project_task_box {
+      border: 2px black solid;
+      padding: 5px;
+    }
+  }
+}
+
+.button_box {
+  padding: 20px;
+  margin-left: 150px;
+  display: flex;
+
+  .project_add {
+    background-color: lightgrey;
+    padding: 3px 25px 3px 25px;
+    border: 2px solid black;
+    border-radius: 5px;
+    font-size: 0.75em;
   }
 }
