@@ -32,7 +32,8 @@ const createProject = async (name, code) => {
   if(rows.length){
     return {status: 400, data: 'project code already exist'}
   }
-  return {status: 200, data: await myConnect.query(sqlCreateProject, [name, code])}
+  const newProject = await myConnect.query(sqlCreateProject, [name, code])
+  return {status: 200, data: newProject.rows[0]}
 }
 
 //await awaits a promise

@@ -1,5 +1,5 @@
 import {createSelector} from "reselect"
-
+import axios from 'axios'
 
 /**
  * Constants
@@ -66,10 +66,31 @@ export const projectListSelector = createSelector(stateSelector, state => state.
  * */
 
 export const fetchProjectList = () => (dispatch) => {
-  fetch('http://localhost:8000/project')
-    .then((data) => data.json())
-    .then((data) => dispatch({
+  axios('http://localhost:8000/project')
+    .then(({data : {data}}) => dispatch({
       type: FETCH_PROJECT_LIST,
-      payload: data.data
+      payload: data
+    }))
+}
+
+export const createNewProject = (newProject) => (dispatch, getState) => {
+  const {projectList} = getState()[moduleName]
+  axios.post('http://localhost:8000/project', newProject)
+    .then(({data}) => dispatch({
+      type: CREATE_PROJECT,
+      payload: [...projectList, data]
+    }))
+}
+
+export const removeProject = (id) => (dispatch, getState) => {
+  const {projectList} = getState()[moduleName]
+  axios({
+    method: 'DELETE',
+    url: 'http://localhost:8000/project',
+    data: {id}
+  })
+    .then(() => dispatch({
+      type: DELETE_PROJECT,
+      payload: projectList.filter(f => f.id !== id)
     }))
 }
