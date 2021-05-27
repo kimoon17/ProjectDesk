@@ -9,7 +9,6 @@ export function Projects({projectList, fetchProjectList, createNewProject, remov
 
   return (
     <div>
-      <h1 className="project_heading">Projects</h1>
       <div className="project_boxes">
           {projectList && projectList.map((project) => <div className="project_box" key={project.id}>
             <p className="project_name">{project.name}</p>
