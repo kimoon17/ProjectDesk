@@ -10,7 +10,7 @@ export const moduleName = 'project'
 const prefix = moduleName
 
 export const FETCH_PROJECT_LIST = `${prefix}/FETCH_PROJECT_LIST`
-export const FETCH_PROJECT = `${prefix}/FETCH_PROJECT`
+export const SET_ACTIVE_PROJECT = `${prefix}/SET_ACTIVE_PROJECT`
 export const CREATE_PROJECT = `${prefix}/CREATE_PROJECT`
 export const UPDATE_PROJECT = `${prefix}/UPDATE_PROJECT`
 export const DELETE_PROJECT = `${prefix}/DELETE_PROJECT`
@@ -35,7 +35,7 @@ export default function reducer(state = ReducerRecord, action) {
       return Object.assign({}, state, {
         projectList: payload
       })
-    case FETCH_PROJECT:
+    case SET_ACTIVE_PROJECT:
       return Object.assign({}, state, {
         activeProject: payload
       })
@@ -50,16 +50,19 @@ export default function reducer(state = ReducerRecord, action) {
 
 export const stateSelector = state => state[moduleName]
 export const projectListSelector = createSelector(stateSelector, state => state.projectList)
+export const activeProjectSelector = createSelector(stateSelector, state => state.projectList && state.projectList.find(f => f.id === state.activeProject))
 
 
 /**
  * Action creators
  * */
 
-// export const fetchProjectList = (project_list) => ({
-//   type: FETCH_PROJECT_LIST,
-//   payload: project_list
-// })
+export const setActiveProject = (projectId) => ({
+  type: SET_ACTIVE_PROJECT,
+  payload: projectId
+})
+
+
 
 /**
  * Redux thunks
@@ -79,6 +82,21 @@ export const createNewProject = (newProject) => (dispatch, getState) => {
     .then(({data}) => dispatch({
       type: CREATE_PROJECT,
       payload: [...projectList, data]
+    }))
+}
+
+export const updateProject = (newProject) => (dispatch, getState) => {
+  const {projectList} = getState()[moduleName]
+  axios.put('http://localhost:8000/project', newProject)
+    .then(({data}) => dispatch({
+      type: UPDATE_PROJECT,
+      payload: projectList.map(project => {
+        if(newProject.id === project.id) {
+          return newProject
+        } else {
+          return project
+        }
+      })
     }))
 }
 
