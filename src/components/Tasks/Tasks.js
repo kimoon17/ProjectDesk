@@ -72,7 +72,7 @@ export function Tasks({taskList, fetchTaskList, createNewTask, removeTask, setAc
 
             {!activeTask && isOpen && <Modal onClose={() => setIsOpen(false)} title="New Task">
                 <TaskForm
-                    handleSubmit{...(values) => { /*Q Why did it ask me for ... here*/
+                    handleSubmit{(values) => {
                         createNewTask(values)
                         setIsOpen(false)
                 }}

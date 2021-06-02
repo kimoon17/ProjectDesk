@@ -9,6 +9,7 @@ export const moduleName = 'task'
 const prefix = moduleName
 
 export const FETCH_TASK_LIST = `${prefix}/FETCH_TASK_LIST`
+export const SET_ACTIVE_TASK = `${prefix}/SET_ACTIVE_TASK`
 export const FETCH_TASK = `${prefix}/FETCH_TASK`
 export const CREATE_TASK = `${prefix}/CREATE_TASK`
 export const UPDATE_TASK = `${prefix}/UPDATE_TASK`
@@ -48,9 +49,19 @@ export default function reducer(state = ReducerRecord, action) {
 
 export const stateSelector = state => state[moduleName]
 export const taskListSelector = createSelector(stateSelector, state => state.taskList)
+export const activeTaskSelector = createSelector(stateSelector, state => state.taskList && state.taskList.find(f => f.id === state.activeTask))
 
 /**
- * Redux thunks & Action creators
+ * Action creators
+ */
+
+export const setActiveTask = (taskId) => ({
+    type: SET_ACTIVE_TASK,
+    payload: taskId
+})
+
+/**
+ * Redux thunks
  */
 
 export const fetchTaskList = () => (dispatch) => {
