@@ -70,11 +70,26 @@ export const createNewTask = (newTask) => (dispatch, getState) => {
         }))
 }
 
+export const updateTask = (newTask) => (dispatch, getState) => {
+    const {taskList} = getState()[moduleName]
+    axios.put('http://localhost:8000/task', newTask)
+        .then(({data}) => dispatch({
+            type: UPDATE_TASK,
+            payload: taskList.map(task => {
+                if (newTask.id === task.id) {
+                    return newTask
+                } else {
+                    return task
+                }
+            })
+        }))
+}
+
 export const removeTask = (id) => (dispatch, getState) => {
     const {taskList} = getState()[moduleName]
     axios({
         method: 'DELETE',
-        url: 'http://localhost:8000/project',
+        url: 'http://localhost:8000/task',
         data: {id}
     })
         .then(() => dispatch({
