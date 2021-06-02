@@ -5,7 +5,7 @@ const modalContainer = document.getElementById('modal')
 const modalEl = document.createElement('div')
 
 
-const Modal = ({children, onClose}) => {
+const Modal = ({children, onClose, title}) => {
 
   useEffect(() => {
     modalContainer.appendChild(modalEl)
@@ -16,10 +16,13 @@ const Modal = ({children, onClose}) => {
   }, [])
 
   const content = <div className='modal__container'>
-    <div className="modal__title">
-      <span className="modal__icon_close" onClick={onClose}>X</span>
+    <div className='modal__content'>
+      <div className="modal__title">
+        <h3>{title}</h3>
+        <span className="modal__icon_close" onClick={onClose}>X</span>
+      </div>
+      {children}
     </div>
-    {children}
   </div>
 
   return ReactDOM.createPortal(

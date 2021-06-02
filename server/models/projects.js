@@ -7,6 +7,10 @@ const sqlCreateProject = {
     RETURNING id, name, code`
 }
 
+const sqlProjectById = {
+  text: `SELECT * FROM projectdeskdb.projects WHERE id=$1`
+}
+
 const sqlProjectByCode = {
   text: `SELECT * FROM projectdeskdb.projects WHERE code=$1`
 }
@@ -24,10 +28,12 @@ const sqlDeleteProject = {
   text: `DELETE FROM projectdeskdb.projects WHERE id=$1`
 }
 
-const readOneProject = async (code) => ({status : 200, data: await myConnect.query(sqlProjectByCode, [code])})
+const readOneProject = async (id) => ({status : 200, data: await myConnect.query(sqlProjectById, [id])})
+
+const readOneProjectByCode = async (code) => ({status : 200, data: await myConnect.query(sqlProjectByCode, [code])})
 
 const createProject = async (name, code) => {
-  const {data : {rows}} = await readOneProject(code)
+  const {data : {rows}} = await readOneProjectByCode(code)
 
   if(rows.length){
     return {status: 400, data: 'project code already exist'}
@@ -39,8 +45,8 @@ const createProject = async (name, code) => {
 //await awaits a promise
 const readProjects = async (limit, offset) => ({status: 200, data: listFormatter(await myConnect.query(sqlProjectList, [limit, offset]))})
 
-const updateProject = async (id, name, code) => {
-  const {data : {rows}} = await readOneProject(code)
+const updateProject = async (name, code, id) => {
+  const {data : {rows}} = await readOneProject(id)
   if(rows.length === 0){
     return {status: 400, data: 'project id is missing'}
   }
