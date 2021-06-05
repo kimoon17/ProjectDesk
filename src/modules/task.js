@@ -75,9 +75,9 @@ export const fetchTaskList = () => (dispatch) => {
 export const createNewTask = (newTask) => (dispatch, getState) => {
     const {taskList} = getState()[moduleName]
     axios.post('http://localhost:8000/task', newTask)
-        .then(({data}) => dispatch({
+        .then(({data : {data}}) => dispatch({
             type: CREATE_TASK,
-            payload: [...taskList, data]
+            payload: [...taskList, data[0]]
         }))
 }
 

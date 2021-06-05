@@ -35,7 +35,7 @@ const readTasksByProject = async (project_id, limit, offset) => ({statusCode: 20
 const readTaskById = async (id) => ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTaskById, [id]))})
 
 const createTask = async (name, status, type, description, project_id) => {
-    return {statusCode: 200, data: await myConnect.query(sqlCreateTask, [name, status, type, description, project_id])}
+    return {statusCode: 200, data: listFormatter(await myConnect.query(sqlCreateTask, [name, status, type, description, project_id]))}
 }
 
 //all

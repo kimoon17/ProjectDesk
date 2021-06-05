@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import './styles.scss'
 import Modal from '../Modal'
 import {Field, Form, Formik} from 'formik'
-
+import {Link} from 'react-router-dom'
 
 const ProjectForm = ({project, handleSubmit}) => {
   return (
@@ -43,7 +43,7 @@ export function Projects({projectList, fetchProjectList, createNewProject, remov
           <p className="project_name" onClick={() => setActiveProject(project.id)}>{project.name}</p>
           <p className="project_code">{project.code}</p>
           <span onClick={() => removeProject(project.id)}>X</span>
-          <div className="project_task_box">Tasks</div>
+          <Link to={"/tasks/" + project.id}><div className="project_task_box">Tasks</div></Link>
         </div>)}
       </div>
       <div className="button_box">
