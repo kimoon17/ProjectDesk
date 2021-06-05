@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {Tasks} from './Tasks'
+import Tasks from './Tasks'
 
 import {
     updateTask,
