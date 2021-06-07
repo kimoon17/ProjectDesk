@@ -14,7 +14,8 @@ const task_list = async (req, res) => {
 
 const task_update = async (req, res) => {
     const {body: {id, name, status, type, description}} = req
-    const {statusCode, data} = await updateTask(id, name, status, type, description);
+    const {statusCode} = await updateTask(id, name, status, type, description);
+    const {data} = await readTasks()
     res.status(statusCode).send(data);
 }
 

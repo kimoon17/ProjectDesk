@@ -16,8 +16,7 @@ const sqlTaskList = {
 }
 
 const sqlUpdateTasks = {
-    text: `UPDATE projectdeskdb.tasks SET name=$1, status=$2, type=$3, description=$4 WHERE id=$5
-    RETURNING id, name, status`
+    text: `UPDATE projectdeskdb.tasks SET name=$1, status=$2, type=$3, description=$4 WHERE id=$5`
 }
 
 const sqlDeleteTask = {

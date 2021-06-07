@@ -10,7 +10,6 @@ const prefix = moduleName
 
 export const FETCH_TASK_LIST = `${prefix}/FETCH_TASK_LIST`
 export const SET_ACTIVE_TASK = `${prefix}/SET_ACTIVE_TASK`
-export const FETCH_TASK = `${prefix}/FETCH_TASK`
 export const CREATE_TASK = `${prefix}/CREATE_TASK`
 export const UPDATE_TASK = `${prefix}/UPDATE_TASK`
 export const DELETE_TASK = `${prefix}/DELETE_TASK`
@@ -34,7 +33,7 @@ export default function reducer(state = ReducerRecord, action) {
             return Object.assign({}, state, {
                 taskList: payload
             })
-        case FETCH_TASK:
+        case SET_ACTIVE_TASK:
             return Object.assign({}, state, {
                 activeTask: payload
             })
@@ -49,15 +48,15 @@ export default function reducer(state = ReducerRecord, action) {
 
 export const stateSelector = state => state[moduleName]
 export const taskListSelector = createSelector(stateSelector, state => state.taskList)
-export const activeTaskSelector = createSelector(stateSelector, state => state.taskList && state.taskList.find(f => f.id === state.activeTask))
+export const activeTaskSelector = createSelector(stateSelector, state => state.activeTask)
 
 /**
  * Action creators
  */
 
-export const setActiveTask = (taskId) => ({
+export const setActiveTask = (task) => ({
     type: SET_ACTIVE_TASK,
-    payload: taskId
+    payload: task
 })
 
 /**

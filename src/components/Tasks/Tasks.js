@@ -62,10 +62,10 @@ function Tasks({taskList, fetchTaskList, createNewTask, removeTask, setActiveTas
                 {taskList && taskList.map((task) => <div className="project_box" key={task.id}>
                     <p className="highlight">{task.status}</p>
                     <p>{task.type}</p>
-                    <p onClick={() => setActiveTask(task.id)} className="project_code">{task.name}</p> 
+                    <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>
                     <span onClick={() => removeTask(task.id)}>X</span>
-                    <div className="project_task_box">More</div>
+                    <div onClick={() => setActiveTask(task)} className="project_task_box">More</div>
                 </div>)}
             </div>
 
