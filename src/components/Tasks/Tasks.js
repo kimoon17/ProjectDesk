@@ -27,11 +27,11 @@ const TaskForm = ({task, handleSubmit}) => {
                 }}
             >
                 <Form>
-                    <label htmlFor="name">Task name</label>
-                    <Field id="name" name="name" placeholder="Name"/>
+                    <label htmlFor="name">Name</label>
+                    <Field className="options-box name" id="name" name="name" />
 
-                    <label className="label-box" htmlFor="status">Task status</label>
-                    <Field as="select" name="status" className="options-box">
+                    <label className="label-box" htmlFor="status">Status</label>
+                    <Field as="select" name="status" className="options-box rounded">
                         <option value="1">Backlog</option>
                         <option value="2">In the sprint</option>
                         <option value="3">Active</option>
@@ -39,17 +39,17 @@ const TaskForm = ({task, handleSubmit}) => {
                         <option value="5">Abandoned</option>
                     </Field>
 
-                    <label className="label-box" htmlFor="type">Task type</label>
-                    <Field as="select" name="type" className="options-box">
+                    <label className="label-box" htmlFor="type">Type</label>
+                    <Field as="select" name="type" className="options-box rounded">
                         <option value="1">Feature</option>
                         <option value="2">Bug</option>
                         <option value="3">Test</option>
                     </Field>
 
-                    <label className="label-box" htmlFor="Description">Task status</label>
-                    <Field id="description" name="description" as="textarea" placeholder="description"/>
+                    <label className="label-box" htmlFor="Description">Description</label>
+                    <Field className="options-box" id="description" name="description" as="textarea" />
 
-                    <button type="submit">Submit</button>
+                    <button id="myBtn" className="options-box" type="submit">Submit</button>
                 </Form>
             </Formik>
         </div>

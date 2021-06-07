@@ -4,6 +4,7 @@
   flex-direction: column;
   min-width: 300px;
 
+
   .project_box {
     display: flex;
     justify-content: space-between;
@@ -47,6 +48,7 @@
 .form__container {
 
   padding: 30px;
+  width: 500px;
 
   > form {
     display: flex;
@@ -70,9 +72,31 @@
 
 .options-box {
   margin-bottom: 12px;
+  padding: 5px;
+  border: 2px solid black;
 }
 
 .label-box {
   margin: 7px 0;
   font-size: 1em;
+}
+
+.name {
+  width: 400px;
+}
+
+#myBtn {
+  font-size: 1em;
+  width: 30%;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.rounded {
+  border-radius: 10px;
+  width: 50%;
+}
+
+#description {
+  padding: 20px;
 }

@@ -14,13 +14,13 @@ const ProjectForm = ({project, handleSubmit}) => {
         }}
       >
         <Form>
-          <label htmlFor="name">Project Name</label>
-          <Field id="name" name="name" placeholder="name"/>
+          <label htmlFor="name">Name</label>
+          <Field id="name" name="name" className="options-box"/>
 
-          <label htmlFor="code">Project code</label>
-          <Field id="code" name="code" placeholder="code"/>
+          <label htmlFor="code">Code</label>
+          <Field id="code" name="code" className="options-box"/>
 
-          <button type="submit">Submit</button>
+          <button id="myBtn" className="options-box" type="submit">Submit</button>
         </Form>
       </Formik>
     </div>
