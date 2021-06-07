@@ -7,6 +7,16 @@ import {useParams} from 'react-router-dom'
 //create:
 //name, status, type, description, project_id
 
+const statusList = ['Backlog', 'In the sprint', 'Active', 'Done', 'Abandoned']
+const typeList = ['Feature', 'Bug', 'Test']
+const statusColors = {
+    'Backlog': 'blue',
+    'In the sprint': 'orange',
+    'Active': 'red',
+    'Done': 'lightblue',
+    'Abandoned': 'brown'
+}
+
 const TaskForm = ({task, handleSubmit}) => {
     return (
         <div className="form__container">
@@ -48,11 +58,11 @@ const TaskForm = ({task, handleSubmit}) => {
 
 function Tasks({taskList, fetchTaskList, createNewTask, removeTask, setActiveTask, activeTask, updateTask}) {
 
-    useEffect(() => {
-        fetchTaskList()
-    }, [fetchTaskList])
-
     const {project_id} = useParams()
+
+    useEffect(() => {
+        fetchTaskList(project_id || null)
+    }, [fetchTaskList, project_id])
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -60,8 +70,8 @@ function Tasks({taskList, fetchTaskList, createNewTask, removeTask, setActiveTas
         <div>
             <div className="project_boxes">
                 {taskList && taskList.map((task) => <div className="project_box" key={task.id}>
-                    <p className="highlight">{task.status}</p>
-                    <p>{task.type}</p>
+                    <p style={{backgroundColor: statusColors[statusList[task.status-1]]}} className="highlight">{statusList[task.status-1]}</p>
+                    <p>{typeList[task.type-1]}</p>
                     <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>
                     <span onClick={() => removeTask(task.id)}>X</span>
@@ -89,7 +99,7 @@ function Tasks({taskList, fetchTaskList, createNewTask, removeTask, setActiveTas
                         createNewTask(values)
                         setIsOpen(false)
                     }}
-                    task={{project_id: project_id, name: '', status: '', description: '', type: ''}}
+                    task={{project_id: project_id, name: '', status: 1, description: '', type: 1}}
                 />
             </Modal>}
         </div>

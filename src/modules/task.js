@@ -63,8 +63,9 @@ export const setActiveTask = (task) => ({
  * Redux thunks
  */
 
-export const fetchTaskList = () => (dispatch) => {
-    axios('http://localhost:8000/task')
+export const fetchTaskList = (project_id) => (dispatch) => {
+    const url = project_id ? 'http://localhost:8000/task/' + project_id : 'http://localhost:8000/task'
+    axios(url)
         .then(({data: {data}}) => dispatch({
             type: FETCH_TASK_LIST,
             payload: data
