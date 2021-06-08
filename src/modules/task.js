@@ -13,6 +13,8 @@ export const SET_ACTIVE_TASK = `${prefix}/SET_ACTIVE_TASK`
 export const CREATE_TASK = `${prefix}/CREATE_TASK`
 export const UPDATE_TASK = `${prefix}/UPDATE_TASK`
 export const DELETE_TASK = `${prefix}/DELETE_TASK`
+export const FETCH_TASK_STATUSES = `${prefix}/FETCH_TASK_STATUSES`
+export const FETCH_TASK_TYPES = `${prefix}/FETCH_TASK_TYPES`
 
 /**
  * Reducers
@@ -26,6 +28,8 @@ export const ReducerRecord = {
 export default function reducer(state = ReducerRecord, action) {
     const {type, payload} = action
     switch(type) {
+        case FETCH_TASK_TYPES:
+        case FETCH_TASK_STATUSES:
         case FETCH_TASK_LIST:
         case UPDATE_TASK:
         case DELETE_TASK:
@@ -106,6 +110,22 @@ export const removeTask = (id) => (dispatch, getState) => {
         .then(() => dispatch({
             type: DELETE_TASK,
             payload: taskList.filter(f => f.id !== id)
+        }))
+}
+
+export const fetchTaskStatuses = (id) => (dispatch) => {
+    axios('http://localhost:8000/status')
+        .then(({data: {data}}) => dispatch({
+            type: FETCH_TASK_STATUSES,
+            payload: data
+        }))
+}
+
+export const fetchTaskTypes = (id) => (dispatch) => {
+    axios ('http://localhost:8000/type')
+        .then(({data: {data}}) => dispatch({
+            type: FETCH_TASK_TYPES,
+            payload: data
         }))
 }
 

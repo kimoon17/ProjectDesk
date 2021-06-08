@@ -27,6 +27,14 @@ const sqlTaskById = {
     text: `SELECT * FROM projectdeskdb.tasks WHERE id=$1`
 }
 
+const sqlTaskStatus = {
+    text: `SELECT * FROM projectdeskdb.status WHERE id=$1`
+}
+
+const sqlTaskType = {
+    text: `SELECT * FROM projectdeskdb.type WHERE id=$1`
+}
+
 //project's tasks
 const readTasksByProject = async (project_id, limit, offset) => ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTasksByProject, [project_id, limit, offset]))})
 
@@ -46,11 +54,17 @@ const updateTask = async (id, name, status, type, description) => {
 
 const deleteTask = async (id) => ({statusCode: 200, data: await myConnect.query(sqlDeleteTask, [id])})
 
+const readTaskStatus = async (id) => ({statusCode: 200, data: await myConnect.query(sqlTaskStatus, [id])})
+
+const readTaskType = async (id) => ({statusCode: 200, data: await myConnect.query(sqlTaskType, [id])})
+
 module.exports = {
     readTasksByProject,
     createTask,
     readTasks,
     updateTask,
     readTaskById,
-    deleteTask
+    deleteTask,
+    readTaskStatus,
+    readTaskType
 }

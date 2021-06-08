@@ -1,4 +1,4 @@
-const {readTasksByProject, createTask, readTasks, updateTask, deleteTask} = require('../models/tasks')
+const {readTasksByProject, createTask, readTasks, updateTask, deleteTask, readTaskStatus, readTaskType} = require('../models/tasks')
 
 const task_create = async (req, res) => {
     const {body: {name, status, type, description, project_id}} = req
@@ -31,10 +31,24 @@ const task_list_by_project = async (req, res) => {
     res.status(statusCode).send(data);
 }
 
+const task_status = async (req, res) => {
+    const {body: {id}} = req
+    const {statusCode, data} = await readTaskStatus(id);
+    res.status(statusCode).send(data)
+}
+
+const task_type = async (req, res) => {
+    const {body: {id}} = req
+    const {statusCode, data} = await readTaskType(id);
+    res.status(statusCode).send(data)
+}
+
 module.exports = {
     task_create,
     task_list,
     task_update,
     task_delete,
-    task_list_by_project
+    task_list_by_project,
+    task_status,
+    task_type
 }

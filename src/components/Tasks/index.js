@@ -2,6 +2,8 @@ import {connect} from 'react-redux'
 import Tasks from './Tasks'
 
 import {
+    fetchTaskStatuses,
+    fetchTaskTypes,
     updateTask,
     removeTask,
     createNewTask,
@@ -14,4 +16,4 @@ import {
 export default connect(state => ({
     taskList: taskListSelector(state),
     activeTask: activeTaskSelector(state),
-}), {fetchTaskList, createNewTask, removeTask, setActiveTask, updateTask})(Tasks)
+}), {fetchTaskList, createNewTask, removeTask, setActiveTask, updateTask, fetchTaskStatuses, fetchTaskTypes})(Tasks)

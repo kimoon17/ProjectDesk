@@ -4,11 +4,6 @@ import Modal from '../Modal'
 import {Field, Form, Formik} from 'formik'
 import {useParams} from 'react-router-dom'
 
-//create:
-//name, status, type, description, project_id
-
-const statusList = ['Backlog', 'In the sprint', 'Active', 'Done', 'Abandoned']
-const typeList = ['Feature', 'Bug', 'Test']
 const statusColors = {
     'Backlog': 'blue',
     'In the sprint': 'orange',
@@ -56,7 +51,7 @@ const TaskForm = ({task, handleSubmit}) => {
     )
 }
 
-function Tasks({taskList, fetchTaskList, createNewTask, removeTask, setActiveTask, activeTask, updateTask}) {
+function Tasks({taskList, fetchTaskList, createNewTask, removeTask, setActiveTask, activeTask, updateTask, fetchTaskStatuses, fetchTaskTypes}) {
 
     const {project_id} = useParams()
 
@@ -70,8 +65,8 @@ function Tasks({taskList, fetchTaskList, createNewTask, removeTask, setActiveTas
         <div>
             <div className="project_boxes">
                 {taskList && taskList.map((task) => <div className="project_box" key={task.id}>
-                    <p style={{backgroundColor: statusColors[statusList[task.status-1]]}} className="highlight">{statusList[task.status-1]}</p>
-                    <p>{typeList[task.type-1]}</p>
+                    <p style={{backgroundColor: statusColors[fetchTaskStatuses(task.id)]}} className="highlight">{fetchTaskStatuses(task.id)}</p>
+                    <p>{fetchTaskTypes(task.id)}</p>
                     <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>
                     <span onClick={() => removeTask(task.id)}>X</span>
