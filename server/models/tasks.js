@@ -1,6 +1,7 @@
 const connect = require('../database')
 const myConnect = connect
 const {listFormatter} = require('../formatters/projects')
+const {statusAndTypeFormatter} = require('../formatters/statusAndTypeFormatter')
 
 const sqlCreateTask = {
     text: `INSERT INTO projectdeskdb.tasks (name, status, type, description, project_id) VALUES ($1, $2, $3, $4, $5)
@@ -54,9 +55,9 @@ const updateTask = async (id, name, status, type, description) => {
 
 const deleteTask = async (id) => ({statusCode: 200, data: await myConnect.query(sqlDeleteTask, [id])})
 
-const readTaskStatus = async () => ({statusCode: 200, data: await myConnect.query(sqlTaskStatus)})
+const readTaskStatus = async () => ({statusCode: 200, data: statusAndTypeFormatter(await myConnect.query(sqlTaskStatus))})
 
-const readTaskType = async () => ({statusCode: 200, data: await myConnect.query(sqlTaskType)})
+const readTaskType = async () => ({statusCode: 200, data: statusAndTypeFormatter(await myConnect.query(sqlTaskType))})
 
 module.exports = {
     readTasksByProject,

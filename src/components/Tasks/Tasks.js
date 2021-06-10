@@ -70,8 +70,8 @@ function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createN
         <div>
             <div className="project_boxes">
                 {taskList && taskList.map((task) => <div className="project_box" key={task.id}>
-                    <p style={{backgroundColor: statusColors[statusList[task.status]]}} className="highlight">{fetchTaskStatuses(task.id)}</p>
-                    <p>{fetchTaskTypes(task.id)}</p>
+                    <p style={{backgroundColor: statusColors[statusList[task.status]]}} className="highlight">{statusList[task.status]}</p>
+                    <p>{typeList[task.status]}</p>
                     <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>
                     <span onClick={() => removeTask(task.id)}>X</span>
