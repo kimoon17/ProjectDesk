@@ -4,6 +4,8 @@ import Tasks from './Tasks'
 import {
     fetchTaskStatuses,
     fetchTaskTypes,
+    typeListSelector,
+    statusListSelector,
     updateTask,
     removeTask,
     createNewTask,
@@ -16,4 +18,6 @@ import {
 export default connect(state => ({
     taskList: taskListSelector(state),
     activeTask: activeTaskSelector(state),
+    typeList: typeListSelector(state),
+    statusList: statusListSelector(state),
 }), {fetchTaskList, createNewTask, removeTask, setActiveTask, updateTask, fetchTaskStatuses, fetchTaskTypes})(Tasks)

@@ -1,5 +1,6 @@
 import '../Projects/styles.scss'
 import {useEffect, useState} from 'react'
+import {batch} from 'react-redux'
 import Modal from '../Modal'
 import {Field, Form, Formik} from 'formik'
 import {useParams} from 'react-router-dom'
@@ -51,13 +52,17 @@ const TaskForm = ({task, handleSubmit}) => {
     )
 }
 
-function Tasks({taskList, fetchTaskList, createNewTask, removeTask, setActiveTask, activeTask, updateTask, fetchTaskStatuses, fetchTaskTypes}) {
+function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createNewTask, removeTask, setActiveTask, activeTask, updateTask, fetchTaskStatuses, fetchTaskTypes}) {
 
     const {project_id} = useParams()
 
     useEffect(() => {
-        fetchTaskList(project_id || null)
-    }, [fetchTaskList, project_id])
+        batch(() => {
+            fetchTaskStatuses()
+            fetchTaskTypes()
+            fetchTaskList(project_id || null)
+        })
+    }, [fetchTaskStatuses, fetchTaskTypes, fetchTaskList, project_id])
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -65,7 +70,7 @@ function Tasks({taskList, fetchTaskList, createNewTask, removeTask, setActiveTas
         <div>
             <div className="project_boxes">
                 {taskList && taskList.map((task) => <div className="project_box" key={task.id}>
-                    <p style={{backgroundColor: statusColors[fetchTaskStatuses(task.id)]}} className="highlight">{fetchTaskStatuses(task.id)}</p>
+                    <p style={{backgroundColor: statusColors[statusList[task.status]]}} className="highlight">{fetchTaskStatuses(task.id)}</p>
                     <p>{fetchTaskTypes(task.id)}</p>
                     <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>

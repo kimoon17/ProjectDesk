@@ -5,10 +5,11 @@ const {task_create, task_list, task_update, task_delete, task_list_by_project, t
 router.post('/', task_create)
 
 router.get('/', task_list)
-router.get('/:project_id', task_list_by_project)
 
 router.get('/status', task_status)
 router.get('/type', task_type)
+
+router.get('/:project_id', task_list_by_project)
 
 router.put('/', task_update)
 router.delete('/', task_delete)

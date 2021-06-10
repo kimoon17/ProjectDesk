@@ -22,14 +22,22 @@ export const FETCH_TASK_TYPES = `${prefix}/FETCH_TASK_TYPES`
 
 export const ReducerRecord = {
     taskList: null,
-    activeTask: null
+    activeTask: null,
+    statusList: null,
+    typeList: null
 }
 
 export default function reducer(state = ReducerRecord, action) {
     const {type, payload} = action
     switch(type) {
         case FETCH_TASK_TYPES:
+            return Object.assign({}, state, {
+                typeList: payload
+            })
         case FETCH_TASK_STATUSES:
+            return Object.assign({}, state, {
+                statusList: payload
+            })
         case FETCH_TASK_LIST:
         case UPDATE_TASK:
         case DELETE_TASK:
@@ -53,6 +61,9 @@ export default function reducer(state = ReducerRecord, action) {
 export const stateSelector = state => state[moduleName]
 export const taskListSelector = createSelector(stateSelector, state => state.taskList)
 export const activeTaskSelector = createSelector(stateSelector, state => state.activeTask)
+
+export const typeListSelector = createSelector(stateSelector, state => state.typeList)
+export const statusListSelector = createSelector(stateSelector, state => state.statusList)
 
 /**
  * Action creators
@@ -113,16 +124,16 @@ export const removeTask = (id) => (dispatch, getState) => {
         }))
 }
 
-export const fetchTaskStatuses = (id) => (dispatch) => {
-    axios('http://localhost:8000/status')
+export const fetchTaskStatuses = () => (dispatch) => {
+    axios('http://localhost:8000/task/status')
         .then(({data: {data}}) => dispatch({
             type: FETCH_TASK_STATUSES,
             payload: data
         }))
 }
 
-export const fetchTaskTypes = (id) => (dispatch) => {
-    axios ('http://localhost:8000/type')
+export const fetchTaskTypes = () => (dispatch) => {
+    axios ('http://localhost:8000/task/type')
         .then(({data: {data}}) => dispatch({
             type: FETCH_TASK_TYPES,
             payload: data

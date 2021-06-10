@@ -32,15 +32,13 @@ const task_list_by_project = async (req, res) => {
 }
 
 const task_status = async (req, res) => {
-    const {body: {id}} = req
-    const {statusCode, data} = await readTaskStatus(id);
-    res.status(statusCode).send(data)
+    const {statusCode, data: {rows}} = await readTaskStatus();
+    res.status(statusCode).send(rows)
 }
 
 const task_type = async (req, res) => {
-    const {body: {id}} = req
-    const {statusCode, data} = await readTaskType(id);
-    res.status(statusCode).send(data)
+    const {statusCode, data: {rows}} = await readTaskType();
+    res.status(statusCode).send(rows)
 }
 
 module.exports = {
