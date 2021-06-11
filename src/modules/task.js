@@ -126,7 +126,7 @@ export const removeTask = (id) => (dispatch, getState) => {
 
 export const fetchTaskStatuses = () => (dispatch) => {
     axios('http://localhost:8000/task/status')
-        .then(({data: {data}}) => dispatch({
+        .then(({data}) => dispatch({
             type: FETCH_TASK_STATUSES,
             payload: data
         }))
@@ -134,7 +134,7 @@ export const fetchTaskStatuses = () => (dispatch) => {
 
 export const fetchTaskTypes = () => (dispatch) => {
     axios ('http://localhost:8000/task/type')
-        .then(({data: {data}}) => dispatch({
+        .then(({data}) => dispatch({
             type: FETCH_TASK_TYPES,
             payload: data
         }))

@@ -5,6 +5,9 @@ import Modal from '../Modal'
 import {Field, Form, Formik} from 'formik'
 import {useParams} from 'react-router-dom'
 import {getCurrentItemById} from '../../utils'
+import {AiOutlineStar} from 'react-icons'
+import {AiOutlineBug} from 'react-icons'
+import {GrTest} from 'react-icons'
 
 const statusColors = {
     'Backlog': 'blue',
@@ -68,7 +71,7 @@ function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createN
                     <p style={{backgroundColor: getCurrentItemById(statusList, task.status).color}} className="highlight">
                         {getCurrentItemById(statusList, task.status).name}
                     </p>
-                    <p>{typeList[task.status]}</p>
+                    <p>{getCurrentItemById(typeList, task.type).icon}</p>
                     <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>
                     <span onClick={() => removeTask(task.id)}>X</span>
