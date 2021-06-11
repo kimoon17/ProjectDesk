@@ -5,9 +5,8 @@ import Modal from '../Modal'
 import {Field, Form, Formik} from 'formik'
 import {useParams} from 'react-router-dom'
 import {getCurrentItemById} from '../../utils'
-import {AiOutlineStar} from 'react-icons'
-import {AiOutlineBug} from 'react-icons'
-import {GrTest} from 'react-icons'
+import {AiOutlineStar, AiOutlineBug} from 'react-icons/ai'
+import {GrTest} from 'react-icons/gr'
 
 const statusColors = {
     'Backlog': 'blue',
@@ -68,10 +67,10 @@ function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createN
         <div>
             <div className="project_boxes">
                 {taskList && taskList.map((task) => <div className="project_box" key={task.id}>
-                    <p style={{backgroundColor: getCurrentItemById(statusList, task.status).color}} className="highlight">
+                    <p style={{color: 'white', backgroundColor: getCurrentItemById(statusList, task.status).color}} className="highlight">
                         {getCurrentItemById(statusList, task.status).name}
                     </p>
-                    <p>{getCurrentItemById(typeList, task.type).icon}</p>
+                    <p>{getCurrentItemById(typeList, task.type).icon + "" === 'AiOutlineBug' ? <AiOutlineBug /> : getCurrentItemById(typeList, task.type).icon + "" === 'AiOutlineStar' ? <AiOutlineStar /> : <GrTest />}</p>
                     <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>
                     <span onClick={() => removeTask(task.id)}>X</span>
