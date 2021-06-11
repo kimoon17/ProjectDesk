@@ -8,14 +8,6 @@ import {getCurrentItemById} from '../../utils'
 import {AiOutlineStar, AiOutlineBug} from 'react-icons/ai'
 import {GrTest} from 'react-icons/gr'
 
-const statusColors = {
-    'Backlog': 'blue',
-    'In the sprint': 'orange',
-    'Active': 'red',
-    'Done': 'lightblue',
-    'Abandoned': 'brown'
-}
-
 const TaskForm = ({task, handleSubmit, statusList, typeList}) => {
     return (
         <div className="form__container">
@@ -70,7 +62,12 @@ function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createN
                     <p style={{color: 'white', backgroundColor: getCurrentItemById(statusList, task.status).color}} className="highlight">
                         {getCurrentItemById(statusList, task.status).name}
                     </p>
-                    <p>{getCurrentItemById(typeList, task.type).icon + "" === 'AiOutlineBug' ? <AiOutlineBug /> : getCurrentItemById(typeList, task.type).icon + "" === 'AiOutlineStar' ? <AiOutlineStar /> : <GrTest />}</p>
+                    {/*<p>{getCurrentItemById(typeList, task.type).icon + "" === 'AiOutlineBug' ? <AiOutlineBug /> : getCurrentItemById(typeList, task.type).icon + "" === 'AiOutlineStar' ? <AiOutlineStar /> : <GrTest />}</p>*/}
+                    <div className="project-text">
+                        {<p>{getCurrentItemById(typeList, task.type).icon === 'AiOutlineBug' && <AiOutlineBug />}</p>}
+                        {<p>{getCurrentItemById(typeList, task.type).icon === 'AiOutlineStar' && <AiOutlineStar />}</p>}
+                        {<p>{getCurrentItemById(typeList, task.type).icon === 'GrTest' && <GrTest />}</p>}
+                    </div>
                     <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>
                     <span onClick={() => removeTask(task.id)}>X</span>

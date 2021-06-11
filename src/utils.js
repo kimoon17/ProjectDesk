@@ -1,1 +1,1 @@
-export const getCurrentItemById = (list = [], id) => list.find(item => item.id === Number(id)) || {}
+export const getCurrentItemById = (list = [], id) => list && list.find(item => item.id === Number(id)) || {}
