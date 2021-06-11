@@ -4,6 +4,7 @@ import {batch} from 'react-redux'
 import Modal from '../Modal'
 import {Field, Form, Formik} from 'formik'
 import {useParams} from 'react-router-dom'
+import {getCurrentItemById} from '../../utils'
 
 const statusColors = {
     'Backlog': 'blue',
@@ -13,7 +14,7 @@ const statusColors = {
     'Abandoned': 'brown'
 }
 
-const TaskForm = ({task, handleSubmit}) => {
+const TaskForm = ({task, handleSubmit, statusList, typeList}) => {
     return (
         <div className="form__container">
             <Formik
@@ -28,18 +29,12 @@ const TaskForm = ({task, handleSubmit}) => {
 
                     <label className="label-box" htmlFor="status">Status</label>
                     <Field as="select" name="status" className="options-box rounded">
-                        <option value="1">Backlog</option>
-                        <option value="2">In the sprint</option>
-                        <option value="3">Active</option>
-                        <option value="4">Done</option>
-                        <option value="5">Abandoned</option>
+                        {statusList.map((status) => <option key={status.id} value={status.id}>{status.name}</option>)}
                     </Field>
 
                     <label className="label-box" htmlFor="type">Type</label>
                     <Field as="select" name="type" className="options-box rounded">
-                        <option value="1">Feature</option>
-                        <option value="2">Bug</option>
-                        <option value="3">Test</option>
+                        {typeList.map((type) => <option key={type.id} value={type.id}>{type.name}</option>)}
                     </Field>
 
                     <label className="label-box" htmlFor="Description">Description</label>
@@ -70,7 +65,9 @@ function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createN
         <div>
             <div className="project_boxes">
                 {taskList && taskList.map((task) => <div className="project_box" key={task.id}>
-                    <p style={{backgroundColor: statusColors[statusList[task.status]]}} className="highlight">{statusList[task.status]}</p>
+                    <p style={{backgroundColor: getCurrentItemById(statusList, task.status).color}} className="highlight">
+                        {getCurrentItemById(statusList, task.status).name}
+                    </p>
                     <p>{typeList[task.status]}</p>
                     <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>
@@ -86,6 +83,8 @@ function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createN
             {activeTask && activeTask.id && <Modal onClose={() => setActiveTask(null)} title={activeTask.name}>
                 <TaskForm
                     task={activeTask}
+                    statusList={statusList}
+                    typeList={typeList}
                     handleSubmit={(values) => {
                         updateTask(values)
                         setActiveTask(null)
@@ -99,6 +98,8 @@ function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createN
                         createNewTask(values)
                         setIsOpen(false)
                     }}
+                    statusList={statusList}
+                    typeList={typeList}
                     task={{project_id: project_id, name: '', status: 1, description: '', type: 1}}
                 />
             </Modal>}
