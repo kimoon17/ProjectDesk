@@ -7,6 +7,9 @@ import {useParams} from 'react-router-dom'
 import {getCurrentItemById} from '../../utils'
 import {AiOutlineStar, AiOutlineBug} from 'react-icons/ai'
 import {GrTest} from 'react-icons/gr'
+import * as ai from 'react-icons/ai'
+import * as gr from 'react-icons/gr'
+const icon = Object.assign(ai, gr)
 
 const TaskForm = ({task, handleSubmit, statusList, typeList}) => {
     return (
@@ -43,6 +46,8 @@ const TaskForm = ({task, handleSubmit, statusList, typeList}) => {
 
 function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createNewTask, removeTask, setActiveTask, activeTask, updateTask, fetchTaskStatuses, fetchTaskTypes}) {
 
+    console.log(icon)
+
     const {project_id} = useParams()
 
     useEffect(() => {
@@ -58,21 +63,20 @@ function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createN
     return (
         <div>
             <div className="project_boxes">
-                {taskList && taskList.map((task) => <div className="project_box" key={task.id}>
+                {taskList && taskList.map((task) => {
+                    const TypeIcon = icon[getCurrentItemById(typeList, task.type).icon]
+                    return <div className="project_box" key={task.id}>
                     <p style={{color: 'white', backgroundColor: getCurrentItemById(statusList, task.status).color}} className="highlight">
                         {getCurrentItemById(statusList, task.status).name}
                     </p>
-                    {/*<p>{getCurrentItemById(typeList, task.type).icon + "" === 'AiOutlineBug' ? <AiOutlineBug /> : getCurrentItemById(typeList, task.type).icon + "" === 'AiOutlineStar' ? <AiOutlineStar /> : <GrTest />}</p>*/}
                     <div className="project-text">
-                        {<p>{getCurrentItemById(typeList, task.type).icon === 'AiOutlineBug' && <AiOutlineBug />}</p>}
-                        {<p>{getCurrentItemById(typeList, task.type).icon === 'AiOutlineStar' && <AiOutlineStar />}</p>}
-                        {<p>{getCurrentItemById(typeList, task.type).icon === 'GrTest' && <GrTest />}</p>}
+                        <TypeIcon />
                     </div>
                     <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>
                     <span onClick={() => removeTask(task.id)}>X</span>
                     <div onClick={() => setActiveTask(task)} className="project_task_box">More</div>
-                </div>)}
+                </div> } )}
             </div>
 
             {project_id && <div className="button_box">
