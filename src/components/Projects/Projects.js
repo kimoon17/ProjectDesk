@@ -28,13 +28,18 @@ const ProjectForm = ({project, handleSubmit}) => {
 }
 
 
-export function Projects({projectList, fetchProjectList, createNewProject, removeProject, setActiveProject, activeProject, updateProject}) {
+export function Projects({projectList, fetchProjectList, createNewProject, removeProject, setActiveProject, activeProject, updateProject, errorProject}) {
 
   useEffect(() => {
     fetchProjectList()
   }, [fetchProjectList])
 
   const [isOpen, setIsOpen] = useState(false)
+
+
+  if(errorProject) {
+    return <div>{errorProject}</div>
+  }
 
   return (
     <div>

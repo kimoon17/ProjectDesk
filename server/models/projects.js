@@ -43,7 +43,7 @@ const createProject = async (name, code) => {
 }
 
 //await awaits a promise
-const readProjects = async (limit, offset) => ({status: 200, data: listFormatter(await myConnect.query(sqlProjectList, [limit, offset]))})
+const readProjects = async (limit = 1000, offset = 0) => ({status: 200, data: listFormatter(await myConnect.query(sqlProjectList, [limit, offset]))})
 
 const updateProject = async (name, code, id) => {
   const {data : {rows}} = await readOneProject(id)

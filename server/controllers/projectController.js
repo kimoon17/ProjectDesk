@@ -2,7 +2,8 @@ const {createProject, readProjects, updateProject, deleteProject} = require('../
 
 const project_create = async (req, res) => {
   const {body: {name, code}} = req
-  const {status, data} = await createProject(name, code)
+  const {status} = await createProject(name, code)
+  const {data} = await readProjects()
   res.status(status).send(data);
 }
 

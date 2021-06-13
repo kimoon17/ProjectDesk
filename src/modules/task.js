@@ -8,7 +8,10 @@ import axios from 'axios'
 export const moduleName = 'task'
 const prefix = moduleName
 
-export const FETCH_TASK_LIST = `${prefix}/FETCH_TASK_LIST`
+export const FETCH_TASK_LIST_REQUEST = `${prefix}/FETCH_TASK_LIST_REQUEST`
+export const FETCH_TASK_LIST_SUCCESS = `${prefix}/FETCH_TASK_LIST_SUCCESS`
+export const FETCH_TASK_LIST_ERROR = `${prefix}/FETCH_TASK_LIST_ERROR`
+
 export const SET_ACTIVE_TASK = `${prefix}/SET_ACTIVE_TASK`
 export const CREATE_TASK = `${prefix}/CREATE_TASK`
 export const UPDATE_TASK = `${prefix}/UPDATE_TASK`
@@ -38,7 +41,7 @@ export default function reducer(state = ReducerRecord, action) {
             return Object.assign({}, state, {
                 statusList: payload
             })
-        case FETCH_TASK_LIST:
+        case FETCH_TASK_LIST_SUCCESS:
         case UPDATE_TASK:
         case DELETE_TASK:
         case CREATE_TASK:
@@ -74,18 +77,23 @@ export const setActiveTask = (task) => ({
     payload: task
 })
 
+export const fetchTaskList = (project_id) => ({
+    type: FETCH_TASK_LIST_REQUEST,
+    payload: project_id
+})
+
 /**
  * Redux thunks
  */
 
-export const fetchTaskList = (project_id) => (dispatch) => {
-    const url = project_id ? 'http://localhost:8000/task/' + project_id : 'http://localhost:8000/task'
-    axios(url)
-        .then(({data: {data}}) => dispatch({
-            type: FETCH_TASK_LIST,
-            payload: data
-        }))
-}
+// export const fetchTaskList = (project_id) => (dispatch) => {
+//     const url = project_id ? 'http://localhost:8000/task/' + project_id : 'http://localhost:8000/task'
+//     axios(url)
+//         .then(({data: {data}}) => dispatch({
+//             type: FETCH_TASK_LIST,
+//             payload: data
+//         }))
+// }
 
 export const createNewTask = (newTask) => (dispatch, getState) => {
     const {taskList} = getState()[moduleName]

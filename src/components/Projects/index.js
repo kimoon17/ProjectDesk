@@ -8,10 +8,12 @@ import {
   fetchProjectList,
   setActiveProject,
   activeProjectSelector,
+  errorProjectSelector,
   projectListSelector
 } from '../../modules/project'
 
 export default connect(state => ({
+  errorProject: errorProjectSelector(state),
   projectList: projectListSelector(state),
   activeProject: activeProjectSelector(state),
 }), {fetchProjectList, createNewProject, removeProject, setActiveProject, updateProject})(Projects)

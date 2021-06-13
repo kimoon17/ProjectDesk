@@ -9,11 +9,19 @@ import axios from 'axios'
 export const moduleName = 'project'
 const prefix = moduleName
 
-export const FETCH_PROJECT_LIST = `${prefix}/FETCH_PROJECT_LIST`
-export const SET_ACTIVE_PROJECT = `${prefix}/SET_ACTIVE_PROJECT`
-export const CREATE_PROJECT = `${prefix}/CREATE_PROJECT`
+export const FETCH_PROJECT_LIST_REQUEST = `${prefix}/FETCH_PROJECT_LIST_REQUEST`
+export const FETCH_PROJECT_LIST_SUCCESS = `${prefix}/FETCH_PROJECT_LIST_SUCCESS`
+export const FETCH_PROJECT_LIST_ERROR = `${prefix}/FETCH_PROJECT_LIST_ERROR`
+
+export const CREATE_PROJECT_REQUEST = `${prefix}/CREATE_PROJECT_REQUEST`
+export const CREATE_PROJECT_SUCCESS = `${prefix}/CREATE_PROJECT_SUCCESS`
+export const CREATE_PROJECT_ERROR = `${prefix}/CREATE_PROJECT_ERROR`
+
 export const UPDATE_PROJECT = `${prefix}/UPDATE_PROJECT`
 export const DELETE_PROJECT = `${prefix}/DELETE_PROJECT`
+
+export const SET_ACTIVE_PROJECT = `${prefix}/SET_ACTIVE_PROJECT`
+
 
 /**
  * Reducer
@@ -21,23 +29,29 @@ export const DELETE_PROJECT = `${prefix}/DELETE_PROJECT`
 
 export const ReducerRecord = {
   projectList: null, // [{...}, {...}]
-  activeProject: null
+  activeProject: null,
+  projectError: null
 }
 
 
 export default function reducer(state = ReducerRecord, action) {
   const {type, payload} = action
   switch (type) {
-    case FETCH_PROJECT_LIST:
+    case FETCH_PROJECT_LIST_SUCCESS:
     case UPDATE_PROJECT:
     case DELETE_PROJECT:
-    case CREATE_PROJECT:
+    case CREATE_PROJECT_SUCCESS:
       return Object.assign({}, state, {
         projectList: payload
       })
     case SET_ACTIVE_PROJECT:
       return Object.assign({}, state, {
         activeProject: payload
+      })
+    case FETCH_PROJECT_LIST_ERROR:
+    case CREATE_PROJECT_ERROR:
+      return Object.assign({}, state, {
+        projectError: payload
       })
     default:
       return state
@@ -51,6 +65,7 @@ export default function reducer(state = ReducerRecord, action) {
 export const stateSelector = state => state[moduleName]
 export const projectListSelector = createSelector(stateSelector, state => state.projectList)
 export const activeProjectSelector = createSelector(stateSelector, state => state.projectList && state.projectList.find(f => f.id === state.activeProject))
+export const errorProjectSelector = createSelector(stateSelector, state => state.projectError)
 
 
 /**
@@ -62,28 +77,28 @@ export const setActiveProject = (projectId) => ({
   payload: projectId
 })
 
+export const fetchProjectList = () => ({
+  type: FETCH_PROJECT_LIST_REQUEST
+})
 
+export const createNewProject = (newProject) => ({
+  type: CREATE_PROJECT_REQUEST,
+  payload: newProject
+})
 
 /**
  * Redux thunks
  * */
 
-export const fetchProjectList = () => (dispatch) => {
-  axios('http://localhost:8000/project')
-    .then(({data : {data}}) => dispatch({
-      type: FETCH_PROJECT_LIST,
-      payload: data
-    }))
-}
 
-export const createNewProject = (newProject) => (dispatch, getState) => {
-  const {projectList} = getState()[moduleName]
-  axios.post('http://localhost:8000/project', newProject)
-    .then(({data}) => dispatch({
-      type: CREATE_PROJECT,
-      payload: [...projectList, data]
-    }))
-}
+// export const createNewProject = (newProject) => (dispatch, getState) => {
+//   const {projectList} = getState()[moduleName]
+//   axios.post('http://localhost:8000/project', newProject)
+//     .then(({data}) => dispatch({
+//       type: CREATE_PROJECT,
+//       payload: [...projectList, data]
+//     }))
+// }
 
 export const updateProject = (newProject) => (dispatch, getState) => {
   const {projectList} = getState()[moduleName]
