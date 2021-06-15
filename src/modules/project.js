@@ -17,8 +17,13 @@ export const CREATE_PROJECT_REQUEST = `${prefix}/CREATE_PROJECT_REQUEST`
 export const CREATE_PROJECT_SUCCESS = `${prefix}/CREATE_PROJECT_SUCCESS`
 export const CREATE_PROJECT_ERROR = `${prefix}/CREATE_PROJECT_ERROR`
 
-export const UPDATE_PROJECT = `${prefix}/UPDATE_PROJECT`
-export const DELETE_PROJECT = `${prefix}/DELETE_PROJECT`
+export const UPDATE_PROJECT_REQUEST = `${prefix}/UPDATE_PROJECT_REQUEST`
+export const UPDATE_PROJECT_SUCCESS = `${prefix}/UPDATE_PROJECT_SUCCESS`
+export const UPDATE_PROJECT_ERROR = `${prefix}/UPDATE_PROJECT_ERROR`
+
+export const DELETE_PROJECT_REQUEST = `${prefix}/DELETE_PROJECT_REQUEST`
+export const DELETE_PROJECT_SUCCESS = `${prefix}/DELETE_PROJECT_SUCCESS`
+export const DELETE_PROJECT_ERROR = `${prefix}/DELETE_PROJECT_ERROR`
 
 export const SET_ACTIVE_PROJECT = `${prefix}/SET_ACTIVE_PROJECT`
 
@@ -38,8 +43,8 @@ export default function reducer(state = ReducerRecord, action) {
   const {type, payload} = action
   switch (type) {
     case FETCH_PROJECT_LIST_SUCCESS:
-    case UPDATE_PROJECT:
-    case DELETE_PROJECT:
+    case UPDATE_PROJECT_SUCCESS:
+    case DELETE_PROJECT_SUCCESS:
     case CREATE_PROJECT_SUCCESS:
       return Object.assign({}, state, {
         projectList: payload
@@ -50,6 +55,8 @@ export default function reducer(state = ReducerRecord, action) {
       })
     case FETCH_PROJECT_LIST_ERROR:
     case CREATE_PROJECT_ERROR:
+    case UPDATE_PROJECT_ERROR:
+    case DELETE_PROJECT_ERROR:
       return Object.assign({}, state, {
         projectError: payload
       })
@@ -104,7 +111,7 @@ export const updateProject = (newProject) => (dispatch, getState) => {
   const {projectList} = getState()[moduleName]
   axios.put('http://localhost:8000/project', newProject)
     .then(({data}) => dispatch({
-      type: UPDATE_PROJECT,
+      type: UPDATE_PROJECT_REQUEST,
       payload: projectList.map(project => {
         if(newProject.id === project.id) {
           return newProject
@@ -123,7 +130,7 @@ export const removeProject = (id) => (dispatch, getState) => {
     data: {id}
   })
     .then(() => dispatch({
-      type: DELETE_PROJECT,
+      type: DELETE_PROJECT_REQUEST,
       payload: projectList.filter(f => f.id !== id)
     }))
 }
