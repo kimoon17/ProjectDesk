@@ -93,6 +93,16 @@ export const createNewProject = (newProject) => ({
   payload: newProject
 })
 
+export const updateProject = (newProject) => ({
+  type: UPDATE_PROJECT_REQUEST,
+  payload: newProject
+})
+
+export const removeProject = (id) => ({
+  type: DELETE_PROJECT_REQUEST,
+  payload: id
+})
+
 /**
  * Redux thunks
  * */
@@ -106,31 +116,31 @@ export const createNewProject = (newProject) => ({
 //       payload: [...projectList, data]
 //     }))
 // }
-
-export const updateProject = (newProject) => (dispatch, getState) => {
-  const {projectList} = getState()[moduleName]
-  axios.put('http://localhost:8000/project', newProject)
-    .then(({data}) => dispatch({
-      type: UPDATE_PROJECT_REQUEST,
-      payload: projectList.map(project => {
-        if(newProject.id === project.id) {
-          return newProject
-        } else {
-          return project
-        }
-      })
-    }))
-}
-
-export const removeProject = (id) => (dispatch, getState) => {
-  const {projectList} = getState()[moduleName]
-  axios({
-    method: 'DELETE',
-    url: 'http://localhost:8000/project',
-    data: {id}
-  })
-    .then(() => dispatch({
-      type: DELETE_PROJECT_REQUEST,
-      payload: projectList.filter(f => f.id !== id)
-    }))
-}
+//
+// export const updateProject = (newProject) => (dispatch, getState) => {
+//   const {projectList} = getState()[moduleName]
+//   axios.put('http://localhost:8000/project', newProject)
+//     .then(({data}) => dispatch({
+//       type: UPDATE_PROJECT_REQUEST,
+//       payload: projectList.map(project => {
+//         if(newProject.id === project.id) {
+//           return newProject
+//         } else {
+//           return project
+//         }
+//       })
+//     }))
+// }
+//
+// export const removeProject = (id) => (dispatch, getState) => {
+//   const {projectList} = getState()[moduleName]
+//   axios({
+//     method: 'DELETE',
+//     url: 'http://localhost:8000/project',
+//     data: {id}
+//   })
+//     .then(() => dispatch({
+//       type: DELETE_PROJECT_REQUEST,
+//       payload: projectList.filter(f => f.id !== id)
+//     }))
+// }

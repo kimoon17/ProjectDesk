@@ -1,4 +1,4 @@
-import {FETCH_PROJECT_LIST_REQUEST, CREATE_PROJECT_REQUEST} from '../modules/project'
+import {FETCH_PROJECT_LIST_REQUEST, CREATE_PROJECT_REQUEST, UPDATE_PROJECT_REQUEST, DELETE_PROJECT_REQUEST} from '../modules/project'
 import {FETCH_TASK_LIST_REQUEST} from '../modules/task'
 
 import axios from 'axios'
@@ -17,6 +17,18 @@ const apiList = getPayload => ({
   [CREATE_PROJECT_REQUEST] : {
     url: 'http://localhost:8000/project',
     method: 'post',
+    selector: ({data}) => data,
+    data: getPayload
+  },
+  [UPDATE_PROJECT_REQUEST] : {
+    url: 'http://localhost:8000/project',
+    method: 'put',
+    selector: ({data}) => data,
+    data: getPayload
+  },
+  [DELETE_PROJECT_REQUEST] : {
+    url: 'http://localhost:8000/project',
+    method: 'delete',
     selector: ({data}) => data,
     data: getPayload
   }
