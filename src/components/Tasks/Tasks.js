@@ -44,9 +44,7 @@ const TaskForm = ({task, handleSubmit, statusList, typeList}) => {
     )
 }
 
-function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createNewTask, removeTask, setActiveTask, activeTask, updateTask, fetchTaskStatuses, fetchTaskTypes}) {
-
-    console.log(icon)
+function Tasks({statusList = [], typeList, taskList, fetchTaskList, createNewTask, removeTask, setActiveTask, activeTask, updateTask, fetchTaskStatuses, fetchTaskTypes}) {
 
     const {project_id} = useParams()
 
@@ -54,7 +52,7 @@ function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createN
         batch(() => {
             fetchTaskStatuses()
             fetchTaskTypes()
-            fetchTaskList(project_id || null)
+            fetchTaskList(project_id || null, 1, 0)
         })
     }, [fetchTaskStatuses, fetchTaskTypes, fetchTaskList, project_id])
 
@@ -70,7 +68,7 @@ function Tasks({statusList = [], typeList = [], taskList, fetchTaskList, createN
                         {getCurrentItemById(statusList, task.status).name}
                     </p>
                     <div className="project-text">
-                        <TypeIcon />
+                        {typeList && <TypeIcon />}
                     </div>
                     <p className="project_code">{task.name}</p>
                     <p>{task.description}</p>

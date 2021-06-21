@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect'
-import axios from 'axios'
 
 /**
  * Constants
@@ -41,8 +40,8 @@ export const SET_ACTIVE_TASK = `${prefix}/SET_ACTIVE_TASK`
 export const ReducerRecord = {
     taskList: null,
     activeTask: null,
-    statusList: null,
-    typeList: null
+    statusList: undefined,
+    typeList: undefined
 }
 
 export default function reducer(state = ReducerRecord, action) {
@@ -86,7 +85,7 @@ export default function reducer(state = ReducerRecord, action) {
  */
 
 export const stateSelector = state => state[moduleName]
-export const taskListSelector = createSelector(stateSelector, state => state.taskList)
+export const taskListSelector = createSelector(stateSelector, state => state.taskList?.data)
 export const activeTaskSelector = createSelector(stateSelector, state => state.activeTask)
 
 export const typeListSelector = createSelector(stateSelector, state => state.typeList)
@@ -101,9 +100,9 @@ export const setActiveTask = (task) => ({
     payload: task
 })
 
-export const fetchTaskList = (project_id) => ({
+export const fetchTaskList = (project_id, limit, offset) => ({
     type: FETCH_TASK_LIST_REQUEST,
-    payload: project_id
+    payload: {body: null, query: project_id, get: {limit, offset}}
 })
 
 export const createNewTask = (newTask) => ({
