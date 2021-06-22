@@ -4,7 +4,10 @@ import {
   FETCH_PROJECT_LIST_REQUEST,
   UPDATE_PROJECT_REQUEST
 } from '../modules/project'
-import {FETCH_TASK_LIST_REQUEST, FETCH_TASK_STATUSES_REQUEST, FETCH_TASK_TYPES_REQUEST} from '../modules/task'
+import {
+  FETCH_TASK_LIST_REQUEST, FETCH_TASK_STATUSES_REQUEST, FETCH_TASK_TYPES_REQUEST,
+  CREATE_TASK_REQUEST, UPDATE_TASK_REQUEST, DELETE_TASK_REQUEST
+} from '../modules/task'
 
 import axios from 'axios'
 import queryString from 'query-string'
@@ -22,7 +25,7 @@ const apiList = (body, query, get) => {
       selector: data => data
     },
     [FETCH_PROJECT_LIST_REQUEST]: {
-      url: 'http://localhost:8000/project',
+      url: 'http://localhost:8000/project/' + queryParam + getParams,
       method: 'get',
       selector: ({data}) => data
     },
@@ -55,7 +58,25 @@ const apiList = (body, query, get) => {
       method: 'get',
       selector: ({data}) => data,
       data: body
-    }
+    },
+    [CREATE_TASK_REQUEST]: {
+      url: 'http://localhost:8000/task',
+      method: 'post',
+      selector: ({data}) => data,
+      data: body
+    },
+    [UPDATE_TASK_REQUEST] : {
+      url: 'http://localhost:8000/task',
+      method: 'put',
+      selector: ({data}) => data,
+      data: body
+    },
+    [DELETE_TASK_REQUEST] : {
+      url: 'http://localhost:8000/task',
+      method: 'delete',
+      selector: ({data}) => data,
+      data: body
+    },
   }
 }
 
