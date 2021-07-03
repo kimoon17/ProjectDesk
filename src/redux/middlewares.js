@@ -50,19 +50,17 @@ const apiList = (body, query, get) => {
     [FETCH_TASK_STATUSES_REQUEST]: {
       url: 'http://localhost:8000/task/status',
       method: 'get',
-      selector: ({data}) => data,
-      data: body
+      selector: (data) => data,
     },
     [FETCH_TASK_TYPES_REQUEST]: {
       url: 'http://localhost:8000/task/type',
       method: 'get',
-      selector: ({data}) => data,
-      data: body
+      selector: (data) => data,
     },
     [CREATE_TASK_REQUEST]: {
       url: 'http://localhost:8000/task',
       method: 'post',
-      selector: ({data}) => data,
+      selector: (data) => data,
       data: body
     },
     [UPDATE_TASK_REQUEST] : {
@@ -74,7 +72,7 @@ const apiList = (body, query, get) => {
     [DELETE_TASK_REQUEST] : {
       url: 'http://localhost:8000/task',
       method: 'delete',
-      selector: ({data}) => data,
+      selector: (data) => data,
       data: body
     },
   }

@@ -1,7 +1,8 @@
-const {createProject, readProjects, updateProject, deleteProject} = require('../models/projects')
+const {createProject, readProjects, updateProject, deleteProject, deleteTasksByProject} = require('../models/projects')
 
 const project_create = async (req, res) => {
   const {body: {name, code}} = req
+  console.log(name, code)
   const {status} = await createProject(name, code)
   const {data} = await readProjects()
   res.status(status).send(data);
@@ -15,13 +16,16 @@ const project_list = async (req, res) => {
 
 const project_update = async(req, res) => {
   const {body: {id, name, code}} = req
-  const {status, data} =  await updateProject(name, code, id);
+  const {status} =  await updateProject(name, code, id);
+  const {data} = await readProjects()
   res.status(status).send(data);
 }
 
 const project_delete = async(req, res) => {
   const {body: {id}} = req
-  const {status, data} = await deleteProject(id);
+  await deleteTasksByProject(id);
+  const {status} = await deleteProject(id);
+  const {data} = await readProjects()
   res.status(status).send(data);
 }
 

@@ -107,17 +107,17 @@ export const fetchTaskList = (project_id, limit, offset) => ({
 
 export const createNewTask = (newTask) => ({
     type: CREATE_TASK_REQUEST,
-    payload: newTask
+    payload: {body: newTask}
 })
 
 export const updateTask = (newTask) => ({
     type: UPDATE_TASK_REQUEST,
-    payload: newTask
+    payload: {body: newTask}
 })
 
 export const removeTask = (id) => ({
     type: DELETE_TASK_REQUEST,
-    payload: id
+    payload: {body: {id}}
 })
 
 export const fetchTaskStatuses = () => ({

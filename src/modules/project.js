@@ -90,17 +90,17 @@ export const fetchProjectList = () => ({
 
 export const createNewProject = (newProject) => ({
   type: CREATE_PROJECT_REQUEST,
-  payload: newProject
+  payload: {body: newProject}
 })
 
 export const updateProject = (newProject) => ({
   type: UPDATE_PROJECT_REQUEST,
-  payload: newProject
+  payload: {body: newProject}
 })
 
 export const removeProject = (id) => ({
   type: DELETE_PROJECT_REQUEST,
-  payload: id
+  payload: {body: {id}}
 })
 
 /**

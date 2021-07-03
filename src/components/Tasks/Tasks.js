@@ -1,12 +1,11 @@
 import '../Projects/styles.scss'
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {batch} from 'react-redux'
 import Modal from '../Modal'
 import {Field, Form, Formik} from 'formik'
 import {useParams} from 'react-router-dom'
 import {getCurrentItemById} from '../../utils'
-import {AiOutlineStar, AiOutlineBug} from 'react-icons/ai'
-import {GrTest} from 'react-icons/gr'
+import ListPagination from '../ListPagination'
 import * as ai from 'react-icons/ai'
 import * as gr from 'react-icons/gr'
 const icon = Object.assign(ai, gr)
@@ -47,14 +46,24 @@ const TaskForm = ({task, handleSubmit, statusList, typeList}) => {
 function Tasks({statusList = [], typeList, taskList, fetchTaskList, createNewTask, removeTask, setActiveTask, activeTask, updateTask, fetchTaskStatuses, fetchTaskTypes}) {
 
     const {project_id} = useParams()
+    const [activePagination, setActivePagination] = useState(1)
+    const [paginationLimit, setPaginationLimit] = useState(10)
+    const [paginationOffset, setPaginationOffset] = useState(0)
 
     useEffect(() => {
         batch(() => {
             fetchTaskStatuses()
             fetchTaskTypes()
-            fetchTaskList(project_id || null, 1, 0)
+            fetchTaskList(project_id || null, 20, 0)
         })
     }, [fetchTaskStatuses, fetchTaskTypes, fetchTaskList, project_id])
+
+    const handleSetPagination = useCallback((value) => {
+        console.log(value)
+        // setActivePagination()
+        // setPaginationLimit()
+        // setPaginationOffset()
+    }, [])
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -76,6 +85,14 @@ function Tasks({statusList = [], typeList, taskList, fetchTaskList, createNewTas
                     <div onClick={() => setActiveTask(task)} className="project_task_box">More</div>
                 </div> } )}
             </div>
+
+            <ListPagination
+              limit={paginationLimit}
+              items={taskList || 0}
+              activeItem={activePagination}
+              offset={paginationOffset}
+              handleClick={handleSetPagination}
+            />
 
             {project_id && <div className="button_box">
                 <button className="project_add" onClick={() => setIsOpen(true)}>+ add</button>

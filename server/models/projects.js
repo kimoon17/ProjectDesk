@@ -25,7 +25,11 @@ const sqlUpdateProjects = {
 }
 
 const sqlDeleteProject = {
-  text: `DELETE FROM projectdeskdb.projects WHERE id=$1`
+  text: `DELETE FROM projectdeskdb.projects WHERE id=$1;`
+}
+
+const sqlDeleteTasksByProject = {
+  text: `DELETE FROM projectdeskdb.tasks WHERE project_id=$1;`
 }
 
 const readOneProject = async (id) => ({status : 200, data: await myConnect.query(sqlProjectById, [id])})
@@ -55,6 +59,8 @@ const updateProject = async (name, code, id) => {
 
 const deleteProject = async (id) => ({status: 200, data: await myConnect.query(sqlDeleteProject, [id])})
 
+const deleteTasksByProject = async (id) => ({status: 200, data: await myConnect.query(sqlDeleteTasksByProject, [id])})
+
 
 
 module.exports = {
@@ -62,5 +68,6 @@ module.exports = {
   readProjects,
   updateProject,
   readOneProject,
-  deleteProject
+  deleteProject,
+  deleteTasksByProject
 }

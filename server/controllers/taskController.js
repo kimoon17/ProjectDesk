@@ -1,8 +1,10 @@
 const {readTasksByProject, createTask, readTasks, updateTask, deleteTask, readTaskStatus, readTaskType} = require('../models/tasks')
+const {listFormatter} = require('../formatters/projects')
 
 const task_create = async (req, res) => {
     const {body: {name, status, type, description, project_id}} = req
-    const {statusCode, data} = await createTask(name, status, type, description, project_id)
+    await createTask(name, status, type, description, project_id)
+    const {statusCode, data} = await readTasksByProject(project_id)
     res.status(statusCode).send(data)
 }
 
@@ -21,7 +23,8 @@ const task_update = async (req, res) => {
 
 const task_delete = async (req, res) => {
     const {body: {id}} = req
-    const {statusCode, data} = await deleteTask(id);
+    const {statusCode} = await deleteTask(id);
+    const {data} = await readTasks()
     res.status(statusCode).send(data)
 }
 
