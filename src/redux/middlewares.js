@@ -66,7 +66,7 @@ const apiList = (body, query, get) => {
     [UPDATE_TASK_REQUEST] : {
       url: 'http://localhost:8000/task',
       method: 'put',
-      selector: ({data}) => data,
+      selector: (data) => data,
       data: body
     },
     [DELETE_TASK_REQUEST] : {
