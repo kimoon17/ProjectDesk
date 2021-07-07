@@ -12,7 +12,15 @@ const sqlTasksByProject = {
 }
 
 const sqlTaskList = {
-    text: `SELECT * FROM projectdeskdb.tasks LIMIT $1 OFFSET $2`
+    text: `SELECT * FROM projectdeskdb.tasks ORDER BY id DESC LIMIT $1 OFFSET $2 `
+}
+
+const sqlCountRows = {
+    text: `SELECT COUNT(*) FROM projectdeskdb.tasks`
+}
+
+const sqlCountRowsByProjectId = {
+    text: `SELECT COUNT(*) FROM projectdeskdb.tasks WHERE project_id = $1`
 }
 
 const sqlUpdateTasks = {
@@ -24,7 +32,7 @@ const sqlDeleteTask = {
 }
 
 const sqlTaskById = {
-    text: `SELECT * FROM projectdeskdb.tasks WHERE id=$1`
+    text: `SELECT * FROM projectdeskdb.tasks WHERE id=$1 ORDER BY id DESC`
 }
 
 const sqlTaskStatus = {
@@ -36,17 +44,28 @@ const sqlTaskType = {
 }
 
 //project's tasks
-const readTasksByProject = async (project_id, limit, offset) => ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTasksByProject, [project_id, limit, offset]))})
+const readTasksByProject = async (project_id, limit, offset) => {
+    const {rows} = await myConnect.query(sqlCountRowsByProjectId, [project_id])
+    return ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTasksByProject, [project_id, limit, offset]), rows)})
+}
 
 //specific
-const readTaskById = async (id) => ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTaskById, [id]))})
+const readTaskById = async (id) => {
+    const {rows} = await myConnect.query(sqlCountRows)
+    return ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTaskById, [id]), rows)})
+}
 
 const createTask = async (name, status, type, description, project_id) => {
-    return {statusCode: 200, data: listFormatter(await myConnect.query(sqlCreateTask, [name, status, type, description, project_id]))}
+    const {rows} = await myConnect.query(sqlCountRows)
+    return {statusCode: 200, data: listFormatter(await myConnect.query(sqlCreateTask, [name, status, type, description, project_id]), rows)}
 }
 
 //all
-const readTasks = async (limit, offset) => ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTaskList, [limit, offset]))})
+const readTasks = async (limit, offset) => {
+    const {rows} = await myConnect.query(sqlCountRows)
+
+    return ({statusCode: 200, data: listFormatter(await myConnect.query(sqlTaskList, [limit, offset]), rows)})
+}
 
 const updateTask = async (id, name, status, type, description) => {
     return {statusCode: 200, data: await myConnect.query(sqlUpdateTasks, [name, status, type, description, id])}

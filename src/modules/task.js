@@ -85,7 +85,7 @@ export default function reducer(state = ReducerRecord, action) {
  */
 
 export const stateSelector = state => state[moduleName]
-export const taskListSelector = createSelector(stateSelector, state => state.taskList?.data)
+export const taskListSelector = createSelector(stateSelector, state => state.taskList)
 export const activeTaskSelector = createSelector(stateSelector, state => state.activeTask)
 
 export const typeListSelector = createSelector(stateSelector, state => state.typeList)

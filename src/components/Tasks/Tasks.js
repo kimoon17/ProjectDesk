@@ -1,5 +1,5 @@
 import '../Projects/styles.scss'
-import {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {batch} from 'react-redux'
 import Modal from '../Modal'
 import {Field, Form, Formik} from 'formik'
@@ -46,23 +46,25 @@ const TaskForm = ({task, handleSubmit, statusList, typeList}) => {
 function Tasks({statusList = [], typeList, taskList, fetchTaskList, createNewTask, removeTask, setActiveTask, activeTask, updateTask, fetchTaskStatuses, fetchTaskTypes}) {
 
     const {project_id} = useParams()
-    const [activePagination, setActivePagination] = useState(1)
-    const [paginationLimit, setPaginationLimit] = useState(10)
-    const [paginationOffset, setPaginationOffset] = useState(0)
+
+    const [pagination, setPagination] = useState({active: 1, limit: 5, offset: 0})
 
     useEffect(() => {
         batch(() => {
             fetchTaskStatuses()
             fetchTaskTypes()
-            fetchTaskList(project_id || null, 20, 0)
+            fetchTaskList(project_id || null, 5, 0)
         })
     }, [fetchTaskStatuses, fetchTaskTypes, fetchTaskList, project_id])
 
+    useEffect(() => {
+        fetchTaskList(project_id || null, pagination.limit, pagination.offset)
+    }, [pagination, pagination.active])
+
     const handleSetPagination = useCallback((value) => {
-        console.log(value)
-        // setActivePagination()
-        // setPaginationLimit()
-        // setPaginationOffset()
+        setPagination( prevState => {
+            return {active: value, limit: prevState.limit, offset: prevState.limit * (value - 1)}
+        })
     }, [])
 
     const [isOpen, setIsOpen] = useState(false)
@@ -70,7 +72,7 @@ function Tasks({statusList = [], typeList, taskList, fetchTaskList, createNewTas
     return (
         <div>
             <div className="project_boxes">
-                {taskList && taskList.map((task) => {
+                {taskList?.data.map((task) => {
                     const TypeIcon = icon[getCurrentItemById(typeList, task.type).icon]
                     return <div className="project_box" key={task.id}>
                     <p style={{color: 'white', backgroundColor: getCurrentItemById(statusList, task.status).color}} className="highlight">
@@ -87,11 +89,14 @@ function Tasks({statusList = [], typeList, taskList, fetchTaskList, createNewTas
             </div>
 
             <ListPagination
-              limit={paginationLimit}
-              items={taskList || 0}
-              activeItem={activePagination}
-              offset={paginationOffset}
+              limit={pagination.limit}
+              count={taskList?.count}
+              activeItem={pagination.active}
+              offset={pagination.offset}
               handleClick={handleSetPagination}
+              handleChangeLimit={(event) => setPagination(prevState => {
+                  return {...prevState, limit: Number(event.target.value)}
+              })}
             />
 
             {project_id && <div className="button_box">

@@ -1,6 +1,10 @@
 .pagination__container {
   display: flex;
 
+  .custom-link {
+    text-decoration: none;
+  }
+
   .pagination__add {
     border: 1px solid #ddd;
     border-radius: .25rem;
